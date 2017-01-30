@@ -1,24 +1,29 @@
 import React, { PropTypes } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 
 const Tag = ({
   label,
-  onPress
+  onPress,
+  stylesTag,
+  stylesText,
 }) => {
   const tag = (
-    <TouchableOpacity style={[styles.tag]} onPress={onPress}>
-      <Text style={[styles.tagLabel]}>
+    <TouchableOpacity
+       style={[styles.tag, stylesTag]} onPress={onPress}>
+      <Text style={[styles.tagLabel, stylesText]}>
         {label}
       </Text>
     </TouchableOpacity>
-  );
+);
   return tag;
 };
 Tag.propTypes = {
   label: PropTypes.string.isRequired,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
+  stylesTag: PropTypes.objectOf(PropTypes.shape),
+  stylesText: PropTypes.objectOf(PropTypes.shape),
 };
 
 
@@ -27,8 +32,8 @@ class Tags extends React.Component {
     super(props);
 
     const {
-      initialTags = [],
-      initialText = ' ',
+        initialTags = [],
+        initialText = ' ',
     } = props;
 
     this.state = {
@@ -41,8 +46,8 @@ class Tags extends React.Component {
 
   componentWillReceiveProps(props) {
     const {
-      initialTags = [],
-      initialText = ' ',
+        initialTags = [],
+        initialText = ' ',
     } = props;
 
     this.setState({
@@ -54,58 +59,69 @@ class Tags extends React.Component {
   onChangeText(text) {
     if (text.length === 0) {
       /* `onKeyPress` isn't currently supported on Android; I've placed an extra
-        space character at the start of `TextInput` which is used to determine if the
-        user is erasing.
-      */
+       space character at the start of `TextInput` which is used to determine if the
+       user is erasing.
+       */
       this.setState({
         tags: this.state.tags.slice(0, -1),
         text: this.state.tags.slice(-1)[0] || ' ',
       }, () => this.props.onChangeTags && this.props.onChangeTags(this.state.tags));
     } else if (
-      text.length > 1 &&
-      (text.slice(-1) === ' ' || text.slice(-1) === ',')
+        text.length > 1 &&
+        (text.slice(-1) === ' ' || text.slice(-1) === ',')
     ) {
       this.setState({
         tags: [...this.state.tags, text.slice(0, -1).trim()],
-        text: ' ',
-      }, () => this.props.onChangeTags && this.props.onChangeTags(this.state.tags));
-      ;
+      text: ' ',
+    }, () => this.props.onChangeTags && this.props.onChangeTags(this.state.tags));
     } else {
       this.setState({ text });
     }
   }
 
+  renderAddRemoveButton() {
+    if (this.props.isAddRemoveButton !== null && this.props.isAddRemoveButton === true) {
+      return (
+          <Tag
+      stylesTag={{ backgroundColor: '#f9b233', paddingLeft: 7, paddingRight: 8 }}
+      stylesText={{ fontWeight: 'bold' }}
+      label=" + / -"
+      onPress={() => this.props.onAddRemovePress()}
+    />
+    );
+    }
+    return null;
+  }
+
   render() {
     return (
-      <View style={[styles.container]}>
+        <View style={[styles.container]}>
         {this.state.tags.map((tag, i) => (
-          <Tag
-            key={i}
-            label={tag}
-            onPress={ e => this.props.onTagPress(i, tag, e)}
-          />)
-        )}
-        <View style={[styles.textInputContainer]}>
-          <TextInput
-            value={this.state.text}
-            style={[styles.textInput, this.props.inputStyle]}
-            onChangeText={this.onChangeText}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-      </View>
-    );
+        <Tag
+    stylesTag={{ backgroundColor: this.props.tagsColor[i] }}
+    key={i}
+    label={tag}
+    onPress={e => this.props.onTagPress(i, tag, e)}
+    // onPress={() => this.props.onTagPress()}
+  />),
+  )}
+    { this.renderAddRemoveButton() }
+  </View>
+  );
   }
 }
 Tags.defaultProps = {
-  inputStyle: {}
+  inputStyle: {},
 };
 Tags.propTypes = {
   initialText: PropTypes.string,
   initialTags: PropTypes.arrayOf(PropTypes.string),
   onChangeTags: PropTypes.func,
   onTagPress: PropTypes.func,
-  inputStyle: PropTypes.object
+  onAddRemovePress: PropTypes.func,
+  isAddRemoveButton: PropTypes.bool,
+  tagColor: PropTypes.string,
+  tagsColor: PropTypes.arrayOf(PropTypes.string),
 };
 
 
