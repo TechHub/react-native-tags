@@ -85,7 +85,7 @@ class Tags extends React.Component {
           <Tag
       stylesTag={{ backgroundColor: '#f9b233', paddingLeft: 7, paddingRight: 8 }}
       stylesText={{ fontWeight: 'bold' }}
-      label=" + / -"
+      label="Add/Remove tags"
       onPress={() => this.props.onAddRemovePress()}
     />
     );
