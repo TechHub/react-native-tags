@@ -29,7 +29,7 @@ export default StyleSheet.create({
   tag: {
     justifyContent: 'center',
     backgroundColor: '#fff',
-    borderRadius: 2,
+    borderRadius: 0,
     paddingLeft: 12,
     paddingRight: 12,
     // flex: 2,
