@@ -84,8 +84,7 @@ class Tags extends React.Component {
       return (
           <Tag
       stylesTag={{ backgroundColor: '#f9b233', paddingLeft: 7, paddingRight: 8 }}
-      stylesText={{ fontWeight: 'bold' }}
-      label="Add/Remove tags"
+      label="Add/Remove"
       onPress={() => this.props.onAddRemovePress()}
     />
     );
@@ -95,18 +94,20 @@ class Tags extends React.Component {
 
   render() {
     return (
+      <View>
         <View style={[styles.container]}>
-        {this.state.tags.map((tag, i) => (
-        <Tag
-    stylesTag={{ backgroundColor: this.props.tagsColor[i] }}
-    key={i}
-    label={tag}
-    onPress={e => this.props.onTagPress(i, tag, e)}
-    // onPress={() => this.props.onTagPress()}
-  />),
-  )}
-    { this.renderAddRemoveButton() }
-  </View>
+          {this.state.tags.map((tag, i) => (
+          <Tag
+            stylesTag={{ backgroundColor: this.props.tagsColor[i] }}
+            key={i}
+            label={tag}
+            onPress={e => this.props.onTagPress(i, tag, e)}
+            // onPress={() => this.props.onTagPress()}
+          />),
+        )}
+       </View>
+        { this.renderAddRemoveButton() }
+     </View>
   );
   }
 }
