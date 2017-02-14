@@ -88,7 +88,7 @@ class Tags extends React.Component {
               backgroundColor: '#f9b233',
               paddingBottom: 4,
               paddingTop: 4,
-              width: 80 }}
+              width: 100 }}
             stylesText= {{ textAlign: 'center' }}  
             label="Add/Remove"
             onPress={() => this.props.onAddRemovePress()}
