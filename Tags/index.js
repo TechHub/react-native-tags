@@ -82,11 +82,18 @@ class Tags extends React.Component {
   renderAddRemoveButton() {
     if (this.props.isAddRemoveButton !== null && this.props.isAddRemoveButton === true) {
       return (
+         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}> 
           <Tag
-      stylesTag={{ backgroundColor: '#f9b233', paddingLeft: 7, paddingRight: 8 }}
-      label="Add/Remove"
-      onPress={() => this.props.onAddRemovePress()}
-    />
+            stylesTag={{
+              backgroundColor: '#f9b233',
+              paddingBottom: 4,
+              paddingTop: 4,
+              width: 80,
+              textAlign: 'center'}}
+            label="Add/Remove"
+            onPress={() => this.props.onAddRemovePress()}
+           />
+          </View> 
     );
     }
     return null;
